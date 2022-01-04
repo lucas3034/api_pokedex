@@ -5,8 +5,9 @@ import (
 	"net/http"
 )
 
-func mensagem(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Bem vindo")
+func Mensagem(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "Bem-vindos a Pokedéx")
 }
+
 
 //Não estou conseguindo chamar essa função no main

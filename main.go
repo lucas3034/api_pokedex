@@ -3,94 +3,109 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
+
+	"github.com/lucas3034/api_pokedex/functions"
+
+	//"io/ioutil"
 	"net/http"
 )
 
 func main() {
-	servidor()
+	rotas()
+	fmt.Println("Server na porta 7000")
+	http.ListenAndServe(":7000", nil)
 }
 
 type Pokemon struct {
-	Id    int
-	Nome  string
-	Tipo1 string
-	Tipo2 string
+	Id   int
+	Nome string
+	Tipo string
 }
 
 var Pokemons []Pokemon = []Pokemon{
-	Pokemon{
-		Id:    1,
-		Nome:  "Bulbassauro",
-		Tipo1: "Grama",
-		Tipo2: "Veneno",
+	{
+		Id:   1,
+		Nome: "Bulbassauro",
+		Tipo: "Grama/Veneno",
 	},
-	Pokemon{
-		Id:    2,
-		Nome:  "Ivyssauro",
-		Tipo1: "Grama",
-		Tipo2: "Veneno",
+	{
+		Id:   2,
+		Nome: "Ivyssauro",
+		Tipo: "Grama/Veneno",
 	},
-	Pokemon{
-		Id:    3,
-		Nome:  "Venossauro",
-		Tipo1: "Grama",
-		Tipo2: "Veneno",
+	{
+		Id:   3,
+		Nome: "Venossauro",
+		Tipo: "Grama/Veneno",
 	},
-	Pokemon{
-		Id:    4,
-		Nome:  "Charmander",
-		Tipo1: "Fogo",
-		Tipo2: "",
+	{
+		Id:   4,
+		Nome: "Charmander",
+		Tipo: "Fogo",
 	},
-	Pokemon{
-		Id:    5,
-		Nome:  "Charmeleon",
-		Tipo1: "Fogo",
-		Tipo2: "",
+	{
+		Id:   5,
+		Nome: "Charmeleon",
+		Tipo: "Fogo",
 	},
-	Pokemon{
-		Id:    6,
-		Nome:  "Charizard",
-		Tipo1: "Fogo",
-		Tipo2: "Voador",
+	{
+		Id:   6,
+		Nome: "Charizard",
+		Tipo: "Fogo/Voador",
 	},
-	Pokemon{
-		Id:    7,
-		Nome:  "Squirtle",
-		Tipo1: "Água",
-		Tipo2: "",
+	{
+		Id:   7,
+		Nome: "Squirtle",
+		Tipo: "Água",
 	},
-	Pokemon{
-		Id:    8,
-		Nome:  "Wartortle",
-		Tipo1: "Água",
-		Tipo2: "",
+	{
+		Id:   8,
+		Nome: "Wartortle",
+		Tipo: "Água",
 	},
-	Pokemon{
-		Id:    9,
-		Nome:  "Blastoise",
-		Tipo1: "Água",
-		Tipo2: "",
+	{
+		Id:   9,
+		Nome: "Blastoise",
+		Tipo: "Água",
 	},
 }
 
 func inicio(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Bem-vindos a Pokedéx")
+	functions.Mensagem(w, r)
 }
 
-func Mostrar(w http.ResponseWriter, r *http.Request) {
+func mostrarPokemons(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
 	encoder := json.NewEncoder(w)
 	encoder.Encode(Pokemons)
 }
 
+ func cadastrarPokemons(w http.ResponseWriter, r *http.Request) {
+ 	w.Header().Set("Content-Type", "application/json")
+ 	w.WriteHeader(http.StatusCreated)
+
+ 	body, _ := ioutil.ReadAll(r.Body)
+ 	var novoPokemon Pokemon
+ 	json.Unmarshal(body, &novoPokemon)
+ 	novoPokemon.Id = len(Pokemons) + 1
+ 	novoPokemon.Nome = "Novo"
+ 	novoPokemon.Tipo = "Tipo"
+ 	Pokemons = append(Pokemons, novoPokemon)
+
+ 	encoder := json.NewEncoder(w)
+ 	encoder.Encode(Pokemons)
+ }
+
 func rotas() {
 	http.HandleFunc("/", inicio)
-	http.HandleFunc("/pokemons", Mostrar)
+	http.HandleFunc("/pokemons", rotasPokemons)
 }
 
-func servidor() {
-	rotas()
-
-	fmt.Println("Server na porta 7000")
-	http.ListenAndServe(":7000", nil)
+func rotasPokemons(w http.ResponseWriter, r *http.Request) {
+	if r.Method == "GET" {
+		mostrarPokemons(w, r)
+	} else if r.Method == "POST" {
+		cadastrarPokemons(w, r)
+	}
 }
