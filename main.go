@@ -23,9 +23,12 @@ func rotas() {
 }
 
 func rotasPokemons(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusMultipleChoices)
 	if r.Method == "GET" {
 		functions.MostrarPokemons(w)
 	} else if r.Method == "POST" {
 		functions.CadastrarPokemons(w, r)
+	} else {
+		fmt.Fprintf(w, "O Método informado está incorreto")
 	}
 }
