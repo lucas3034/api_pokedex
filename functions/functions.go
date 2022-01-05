@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"strconv"
+	"strings"
 )
 
 type Pokemon struct {
@@ -13,11 +15,12 @@ type Pokemon struct {
 	Tipo string
 }
 
-var Pokemons []Pokemon = []Pokemon{
+var Pokemons  = []Pokemon{
 	{
 		Id:   1,
 		Nome: "Bulbassauro",
 		Tipo: "Grama/Veneno",
+
 	},
 	{
 		Id:   2,
@@ -83,27 +86,26 @@ func CadastrarPokemons(w http.ResponseWriter, r *http.Request) {
 	encoder.Encode(Pokemons)
 }
 
-//func BuscarPokemons(w http.ResponseWriter, r *http.Request){
-//	//w.Header().Set("Content-Type", "application/json")
-//	fmt.Println(r.URL.Path)
-//	valor := strings.Split(r.URL.Path, "/")
-//
-//	if len(valor) > 9 {
-//		w.WriteHeader(http.StatusNotFound)
-//		return
-//	}
-//
-//	id, _ := strconv.Atoi(valor[2])
-//
-//	for _, Pokemon := range Pokemons {
-//		if Pokemons.Id == id {
-//			json.NewEncoder(w).Encode(Pokemon)
-//			return
-//		}
-//	}
-//
-//
-//}
+func BuscarPokemons(w http.ResponseWriter, r *http.Request){
+	w.Header().Set("Content-Type", "application/json")
+	fmt.Println(r.URL.Path)
+	valor := strings.Split(r.URL.Path, "/")
+
+	if len(valor) > 9 {
+		w.WriteHeader(http.StatusNotFound)
+		return
+	}
+
+	id, _ := strconv.Atoi(valor[2])
+
+	for _, Pokemon := range Pokemons {
+		if Pokemon.Id == id {
+			json.NewEncoder(w).Encode(Pokemon)
+			return
+		}
+	}
+	w.WriteHeader(http.StatusNotFound)
+}
 
 func Mensagem(w http.ResponseWriter) {
 	fmt.Fprintf(w, "Bem-vindos a Pokedéx")

@@ -19,7 +19,7 @@ func inicio(w http.ResponseWriter, r *http.Request) {
 func rotas() {
 	http.HandleFunc("/", inicio)
 	http.HandleFunc("/pokemons", rotasPokemons)
-	//http.HandleFunc("/pokemons/", functions.BuscarPokemons)
+	http.HandleFunc("/pokemons/", functions.BuscarPokemons)
 }
 
 func rotasPokemons(w http.ResponseWriter, r *http.Request) {
