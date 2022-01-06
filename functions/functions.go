@@ -147,7 +147,7 @@ func DeletarPokemons(w http.ResponseWriter, r *http.Request){
 }
 
 func EditarPokemons(w http.ResponseWriter, r *http.Request){
-	w.WriteHeader(http.StatusNotFound)
+	w.WriteHeader(http.StatusNoContent)
 	valor := strings.Split(r.URL.Path, "/")
 	id, erro := strconv.Atoi(valor[2])
 
