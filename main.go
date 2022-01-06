@@ -41,6 +41,8 @@ func ListasPokemons(w http.ResponseWriter, r *http.Request) {
 		functions.BuscarPokemons(w, r)
 	} else if r.Method == "DELETE" {
 		functions.DeletarPokemons(w, r)
+	} else if r.Method == "PUT" {
+		functions.EditarPokemons(w, r)
 	} else {
 		fmt.Fprintf(w, "O Método informado está incorreto")
 	}

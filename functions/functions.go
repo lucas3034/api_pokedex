@@ -146,7 +146,50 @@ func DeletarPokemons(w http.ResponseWriter, r *http.Request){
 
 }
 
+func EditarPokemons(w http.ResponseWriter, r *http.Request){
+	w.WriteHeader(http.StatusNotFound)
+	valor := strings.Split(r.URL.Path, "/")
+	id, erro := strconv.Atoi(valor[2])
+
+	if erro != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+}
+
+	corpo, erroCorpo := ioutil.ReadAll(r.Body)
+
+	if erroCorpo != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	var pokemonEditado Pokemon
+	erroJson := json.Unmarshal(corpo, &pokemonEditado)
+
+	if erroJson != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	IndicePokemon := -1
+	for indice, pokemon := range Pokemons {
+		if pokemon.Id == id {
+			IndicePokemon = indice
+			break
+		}
+	}
+	if IndicePokemon < 0 {
+		w.WriteHeader(http.StatusNotFound)
+		return
+	}
+
+	Pokemons[IndicePokemon] = pokemonEditado
+
+	json.NewEncoder(w).Encode(pokemonEditado)
+}
+
 func Mensagem(w http.ResponseWriter) {
 	w.WriteHeader(http.StatusOK)
 	fmt.Fprintf(w, "Bem-vindos a Pokedéx")
 }
+
