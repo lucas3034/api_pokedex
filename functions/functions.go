@@ -76,7 +76,11 @@ func CadastrarPokemons(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
 
-	body, _ := ioutil.ReadAll(r.Body)
+	body, erro := ioutil.ReadAll(r.Body)
+	if erro != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
 	var novoPokemon Pokemon
 	json.Unmarshal(body, &novoPokemon)
 	novoPokemon.Id = len(Pokemons) + 1
@@ -89,7 +93,6 @@ func CadastrarPokemons(w http.ResponseWriter, r *http.Request) {
 }
 
 func BuscarPokemons(w http.ResponseWriter, r *http.Request) {
-	if r.Method == "GET" {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
 		fmt.Println(r.URL.Path)
@@ -100,7 +103,12 @@ func BuscarPokemons(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		id, _ := strconv.Atoi(valor[2])
+		id, erro := strconv.Atoi(valor[2])
+
+		if erro != nil {
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		}
 
 		for _, Pokemon := range Pokemons {
 			if Pokemon.Id == id {
@@ -109,10 +117,35 @@ func BuscarPokemons(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 		w.WriteHeader(http.StatusNotFound)
-	}else{
-		fmt.Fprintf(w, "O Método informado está incorreto")
-	}
 }
+
+func DeletarPokemons(w http.ResponseWriter, r *http.Request){
+	w.WriteHeader(http.StatusNoContent)
+	valor := strings.Split(r.URL.Path, "/")
+	id, erro := strconv.Atoi(valor[2])
+
+	if erro != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	IndicePokemon := -1
+	for indice, Pokemon := range Pokemons {
+		if Pokemon.Id == id {
+			IndicePokemon = indice
+			break
+		}
+	}
+	if (IndicePokemon < 0) {
+		w.WriteHeader(http.StatusNotFound)
+		return
+	}
+	Esquerda := Pokemons[0:IndicePokemon]
+	Direita := Pokemons[IndicePokemon + 1 : len(Pokemons)]
+	Pokemons = append(Esquerda, Direita...)
+
+}
+
 func Mensagem(w http.ResponseWriter) {
 	w.WriteHeader(http.StatusOK)
 	fmt.Fprintf(w, "Bem-vindos a Pokedéx")
