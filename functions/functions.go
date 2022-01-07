@@ -11,60 +11,59 @@ import (
 
 type Pokemon struct {
 	Id   int
-	Nome string
-	Tipo []string
+	Name string
+	Type []string
 }
 
-var Pokemons  = []Pokemon{
+var Pokemons = []Pokemon{
 	{
 		Id:   1,
-		Nome: "Bulbassauro",
-		Tipo: []string{"Grama", "Veneno"},
-
+		Name: "Bulbassaur",
+		Type: []string{"Grass", "Poison"},
 	},
 	{
 		Id:   2,
-		Nome: "Ivyssauro",
-		Tipo: []string{"Grama", "Veneno"},
+		Name: "Ivyssaur",
+		Type: []string{"Grass", "Poison"},
 	},
 	{
 		Id:   3,
-		Nome: "Venossauro",
-		Tipo: []string{"Grama", "Veneno"},
+		Name: "Venossaur",
+		Type: []string{"Grass", "Poison"},
 	},
 	{
 		Id:   4,
-		Nome: "Charmander",
-		Tipo: []string{"Fogo"},
+		Name: "Charmander",
+		Type: []string{"Fire"},
 	},
 	{
 		Id:   5,
-		Nome: "Charmeleon",
-		Tipo: []string{"Fogo"},
+		Name: "Charmeleon",
+		Type: []string{"Fire"},
 	},
 	{
 		Id:   6,
-		Nome: "Charizard",
-		Tipo: []string{"Fogo", "Voador"},
+		Name: "Charizard",
+		Type: []string{"Fire", "Flying"},
 	},
 	{
 		Id:   7,
-		Nome: "Squirtle",
-		Tipo: []string{"Água"},
+		Name: "Squirtle",
+		Type: []string{"Water"},
 	},
 	{
 		Id:   8,
-		Nome: "Wartortle",
-		Tipo: []string{"Água"},
+		Name: "Wartortle",
+		Type: []string{"Water"},
 	},
 	{
 		Id:   9,
-		Nome: "Blastoise",
-		Tipo: []string{"Água"},
+		Name: "Blastoise",
+		Type: []string{"Water"},
 	},
 }
 
-func MostrarPokemons(w http.ResponseWriter) {
+func ShowPokemons(w http.ResponseWriter) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 
@@ -72,124 +71,123 @@ func MostrarPokemons(w http.ResponseWriter) {
 	encoder.Encode(Pokemons)
 }
 
-func CadastrarPokemons(w http.ResponseWriter, r *http.Request) {
+func RegisterPokemons(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
 
-	body, erro := ioutil.ReadAll(r.Body)
-	if erro != nil {
+	body, error := ioutil.ReadAll(r.Body)
+	if error != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	var novoPokemon Pokemon
-	json.Unmarshal(body, &novoPokemon)
-	novoPokemon.Id = len(Pokemons) + 1
-	novoPokemon.Nome = "Novo"
-	novoPokemon.Tipo = []string{"Tipo"}
-	Pokemons = append(Pokemons, novoPokemon)
+	var NewPokemon Pokemon
+	json.Unmarshal(body, &NewPokemon)
+	NewPokemon.Id = len(Pokemons) + 1
+	NewPokemon.Name = "New"
+	NewPokemon.Type = []string{"Type"}
+	Pokemons = append(Pokemons, NewPokemon)
 
 	encoder := json.NewEncoder(w)
 	encoder.Encode(Pokemons)
 }
 
-func BuscarPokemons(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Content-Type", "application/json")
-		w.WriteHeader(http.StatusOK)
-		fmt.Println(r.URL.Path)
-		valor := strings.Split(r.URL.Path, "/")
+func SearchPokemons(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	fmt.Println(r.URL.Path)
+	Value := strings.Split(r.URL.Path, "/")
 
-		if len(valor) > 9 {
-			w.WriteHeader(http.StatusNotFound)
-			return
-		}
-
-		id, erro := strconv.Atoi(valor[2])
-
-		if erro != nil {
-			w.WriteHeader(http.StatusBadRequest)
-			return
-		}
-
-		for _, Pokemon := range Pokemons {
-			if Pokemon.Id == id {
-				json.NewEncoder(w).Encode(Pokemon)
-				return
-			}
-		}
+	if len(Value) > 9 {
 		w.WriteHeader(http.StatusNotFound)
-}
+		return
+	}
 
-func DeletarPokemons(w http.ResponseWriter, r *http.Request){
-	w.WriteHeader(http.StatusNoContent)
-	valor := strings.Split(r.URL.Path, "/")
-	id, erro := strconv.Atoi(valor[2])
+	id, error := strconv.Atoi(Value[2])
 
-	if erro != nil {
+	if error != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 
-	IndicePokemon := -1
-	for indice, Pokemon := range Pokemons {
+	for _, Pokemon := range Pokemons {
 		if Pokemon.Id == id {
-			IndicePokemon = indice
+			json.NewEncoder(w).Encode(Pokemon)
+			return
+		}
+	}
+	w.WriteHeader(http.StatusNotFound)
+}
+
+func DeletePokemons(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusNoContent)
+	Value := strings.Split(r.URL.Path, "/")
+	id, error := strconv.Atoi(Value[2])
+
+	if error != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	IndexPokemon := -1
+	for Index, Pokemon := range Pokemons {
+		if Pokemon.Id == id {
+			IndexPokemon = Index
 			break
 		}
 	}
-	if (IndicePokemon < 0) {
+	if IndexPokemon < 0 {
 		w.WriteHeader(http.StatusNotFound)
 		return
 	}
-	Esquerda := Pokemons[0:IndicePokemon]
-	Direita := Pokemons[IndicePokemon + 1 : len(Pokemons)]
-	Pokemons = append(Esquerda, Direita...)
+	Left := Pokemons[0:IndexPokemon]
+	Right := Pokemons[IndexPokemon+1 : len(Pokemons)]
+	Pokemons = append(Left, Right...)
 
 }
 
-func EditarPokemons(w http.ResponseWriter, r *http.Request){
+func EditPokemons(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusNoContent)
-	valor := strings.Split(r.URL.Path, "/")
-	id, erro := strconv.Atoi(valor[2])
+	Value := strings.Split(r.URL.Path, "/")
+	id, error := strconv.Atoi(Value[2])
 
-	if erro != nil {
+	if error != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return
-}
+	}
 
-	corpo, erroCorpo := ioutil.ReadAll(r.Body)
+	body, errorBody := ioutil.ReadAll(r.Body)
 
-	if erroCorpo != nil {
+	if errorBody != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 
-	var pokemonEditado Pokemon
-	erroJson := json.Unmarshal(corpo, &pokemonEditado)
+	var pokemonEdited Pokemon
+	errorJson := json.Unmarshal(body, &pokemonEdited)
 
-	if erroJson != nil {
+	if errorJson != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 
-	IndicePokemon := -1
-	for indice, pokemon := range Pokemons {
+	IndexPokemon := -1
+	for Index, pokemon := range Pokemons {
 		if pokemon.Id == id {
-			IndicePokemon = indice
+			IndexPokemon = Index
 			break
 		}
 	}
-	if IndicePokemon < 0 {
+	if IndexPokemon < 0 {
 		w.WriteHeader(http.StatusNotFound)
 		return
 	}
 
-	Pokemons[IndicePokemon] = pokemonEditado
+	Pokemons[IndexPokemon] = pokemonEdited
 
-	json.NewEncoder(w).Encode(pokemonEditado)
+	json.NewEncoder(w).Encode(pokemonEdited)
 }
 
-func Mensagem(w http.ResponseWriter) {
+func Message(w http.ResponseWriter) {
 	w.WriteHeader(http.StatusOK)
-	fmt.Fprintf(w, "Bem-vindos a Pokedéx")
+	fmt.Fprintf(w, "Welcome to Pokedex")
 }
-
