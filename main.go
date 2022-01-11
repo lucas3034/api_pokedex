@@ -20,7 +20,7 @@ func Start(w http.ResponseWriter, r *http.Request) {
 
 func localRoutes() {
 	http.HandleFunc("/", Start)
-	http.HandleFunc("/pokemons", routes.RoutesPokemons)
-	http.HandleFunc("/pokemons/", routes.ListsPokemons)
+	http.HandleFunc("/pokemon", routes.RoutesPokemons)
+	http.HandleFunc("/pokemon/", routes.ListsPokemons)
 }
 
