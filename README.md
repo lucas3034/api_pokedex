@@ -1,3 +1,51 @@
+What is Rest ? -
+Api rest is an API architecture that uses the http protocol(from version 1.1) for communication, they are more standardized and advanced than
+the others, it is widely used for application development.
+.
+why do we use REST ? -
+REST itself are used to transfer information, returning the state of the information in question at the time of the request.
+Rest also allows you to do actions such as inserting or deleting a record.
+It is used as a standard for exchanging information, and it is also widely used for application development,
+such as: web services and APIs.
+Using it, facilitates the design and use by other devs, since the pattern is the same.
+.
+about HTTP verbs -
+are responsible for communicating the rest.
+GET - is the most used and is responsible for the query.
+PUT- is used to update the information
+DELETE - is used to remove information
+POST- it is used to send information
+PATCH - is used to apply partial modifications
+OPTIONS - is used to describe communication options
+.
+What is the REST maturity model ? -
+This model is used to measure the efficiency of an API, based on its use of URI, HTTP methods and HATEOAS.
+The more an API uses these factors, the more "mature" it is. This model divides the APIs into 4 parts:
+
+lvl 0 services - Does not use URI, HTTP Methods and HATEOAS resources.
+It usually only uses a URI and a single HTTP method (usually POST or GET)
+
+lvl 1 services - Efficiently uses URIs, and has resources mapped, however, despite using verbs
+better than at lvl 0, still don't use them efficiently. (most APIs fit this lvl)
+
+lvl 2 services - At this level the use of URIs and HTTP verbs is efficient, at this level the APIs start to get sophisticated
+and more efficient.
+
+lvl 3 services - At this level, the three factors (URIs, HTTP and HATEOAS) are used efficiently, this is the level
+maximum and most mature an API can reach, the goal of every API is to reach that level of maturity.
+.
+What is HATEOAS ? -
+Hateoas is a way to allow an API to perform navigation between its resources through links and URLs, even without
+have the dense knowledge of these URLs and links.
+Using HATEOAS, the client discovers the URLs as it navigates, without needing to know them previously.
+its functioning very much resembles a hypertext.
+.
+.
+.
+.-----------.
+.
+.
+.
 O que é o Rest ? - 
 Uma api rest é uma arquitetura de API q usa o protocolo http(a partir da versão 1.1) para a comunicação, elas são mais padronizadas e e avançadas do que
 as demais, ele é mt utilizado para desenvolvimento de aplicações.
@@ -39,3 +87,4 @@ Hateoas é uma maneira de de permitir q uma API realize uma navegação entre se
 ter o conhecimento denso dessas URLs e links.
 Utilizado o HATEOAS, o cliente vai descobrindo as URLs, a medida que vai anvegando, sem precisar conhece-las previamente.
 o seu funcionamente lembra muito um hypertext.
+
