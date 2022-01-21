@@ -87,4 +87,3 @@ Hateoas é uma maneira de de permitir q uma API realize uma navegação entre se
 ter o conhecimento denso dessas URLs e links.
 Utilizado o HATEOAS, o cliente vai descobrindo as URLs, a medida que vai anvegando, sem precisar conhece-las previamente.
 o seu funcionamente lembra muito um hypertext.
-
