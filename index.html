@@ -1,0 +1,18 @@
+<body>
+    <main></main>
+</body>
+
+<script>
+
+    async function getContent() {
+        try {
+            const responde = await fetch('http://localhost:7000/')
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
+    getContent()
+
+    
+</script>
