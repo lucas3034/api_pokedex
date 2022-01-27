@@ -4,7 +4,7 @@
   "description": "What is Rest ? - Api rest is an API architecture that uses the http protocol(from version 1.1) for communication, they are more standardized and advanced than the others, it is widely used for application development. . why do we use REST ? - REST itself are used to transfer information, returning the state of the information in question at the time of the request. Rest also allows you to do actions such as inserting or deleting a record. It is used as a standard for exchanging information, and it is also widely used for application development, such as: web services and APIs. Using it, facilitates the design and use by other devs, since the pattern is the same. . about HTTP verbs - are responsible for communicating the rest. GET - is the most used and is responsible for the query. PUT- is used to update the information DELETE - is used to remove information POST- it is used to send information PATCH - is used to apply partial modifications OPTIONS - is used to describe communication options . What is the REST maturity model ? - This model is used to measure the efficiency of an API, based on its use of URI, HTTP methods and HATEOAS. The more an API uses these factors, the more \"mature\" it is. This model divides the APIs into 4 parts:",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon server.js"
   },
   "repository": {
     "type": "git",

@@ -6,7 +6,11 @@
 
     async function getContent() {
         try {
-            const responde = await fetch('http://localhost:7000/')
+            const response = await fetch('http://localhost:7000/')
+            const data = await response.json()
+
+            show(data)
+
         } catch (error) {
             console.error(error)
             console.log("Erro detectado")
@@ -15,5 +19,8 @@
 
     getContent()
 
+    function show(){
+        document.querySelector('main').innerHTML(data)
+    }
     
 </script>
