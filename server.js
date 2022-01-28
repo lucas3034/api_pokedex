@@ -5,7 +5,9 @@ const app = express()
 app.use(cors())
 
 app.get('/', (req, res) => {
-    return res.json('Teste Front: ok')
+    return res.json([
+        { mensagem: 'Teste: on'}
+])
 })
 
 app.listen('7000')

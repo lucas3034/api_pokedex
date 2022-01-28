@@ -12,15 +12,18 @@
             show(data)
 
         } catch (error) {
-            console.error(error)
-            console.log("Erro detectado")
+            console.log(error)
         }
     }
 
     getContent()
 
-    function show(){
-        document.querySelector('main').innerHTML(data)
+    function show(testes){
+        let output = ''
+        for(let teste of testes) {
+            output += `<li>${teste.mensagem}</li>`
+        }
+        document.querySelector('main').innerHTML = output
     }
     
 </script>
