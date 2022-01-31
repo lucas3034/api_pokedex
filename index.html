@@ -18,10 +18,10 @@
 
     getContent()
 
-    function show(testes){
+    function show(users){
         let output = ''
-        for(let teste of testes) {
-            output += `<li>${teste.mensagem}</li>`
+        for(let user of users) {
+            output += `<li>${user.name}</li>`
         }
         document.querySelector('main').innerHTML = output
     }
