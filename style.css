@@ -4,7 +4,6 @@
     left: 50%;  
 }
 footer{
-    
     background-color: #FFA701;
     text-align:center;
     padding: 60px;
@@ -13,11 +12,35 @@ footer{
     position: relative;
     top:730px ;
 }
-
-.background{
+.bg{
     background-image: url("fundo.jpg");
     background-size: 100%;
-    min-height: 1000px;
-    padding: 80px 0 0 0;
-
+    min-height: 900px;
+    padding: 0px 0 0 0;
+}
+.effect{
+    background-color: rgba(0, 0, 0, 0.33);
+    padding: 900px 0 0px 0;
+}
+.container{
+    width: 200px;
+    margin: 0 auto;
+}
+header{
+    background-color: #D2691E;
+    height: 70px;
+    padding: 17px;
+}
+footer{
+    background-color: #D2691E;
+    height: 70px;
+    padding: 25px;
+    text-shadow: #000 0px 0px 1px,   #000 0px 0px 1px,   #000 0px 0px 1px,
+             #000 0px 0px 1px,   #000 0px 0px 1px,   #000 0px 0px 1px;
+    color: #32CD32;
+}
+h1{
+    color: #32CD32;
+    text-shadow: #000 0px 0px 1px,   #000 0px 0px 1px,   #000 0px 0px 1px,
+             #000 0px 0px 1px,   #000 0px 0px 1px,   #000 0px 0px 1px;
 }

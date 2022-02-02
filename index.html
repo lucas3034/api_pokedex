@@ -1,29 +1,50 @@
-<body>
-    <main></main>
-</body>
-
-<script>
-
-    async function getContent() {
-        try {
-            const response = await fetch('http://localhost:7000/')
-            const data = await response.json()
-
-            show(data)
-
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
-    getContent()
-
-    function show(testes){
-        let output = ''
-        for(let teste of testes) {
-            output += `<li>${teste.mensagem}</li>`
-        }
-        document.querySelector('main').innerHTML = output
-    }
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="style.css">
+    </head>
     
-</script>
+    <header >
+        <div class="container">
+            <h1>
+                POKEDEX
+            </h1>
+        </div>
+    </header>
+
+    <body >
+        <div class="bg">
+                
+    <main >
+        <script >
+            async function getContent() {
+                try {
+                    const response = await fetch('http://localhost:7000/')
+                    const data = await response.json()
+        
+                    show(data)
+        
+                } catch (error) {
+                    console.log(error)
+                }
+            }
+        
+            getContent()
+        
+            function show(testes){
+                let output = ''
+                for(let teste of testes) {
+                    output += `<li>${teste.mensagem}</li>`
+                }
+                document.querySelector('main').innerHTML = output
+            }
+            
+        </script>
+        
+    </main>
+
+</body>
+<footer>
+    Developed by Lucas Marinho
+</footer>
+</html>
